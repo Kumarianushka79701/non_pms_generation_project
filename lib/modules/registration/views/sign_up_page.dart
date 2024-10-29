@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:nonpms_scanner_project/modules/login.dart';
+import 'package:nonpms_scanner_project/modules/login/views/login.dart';
+import 'package:nonpms_scanner_project/widgets/button.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -53,6 +54,7 @@ class _SignupPageState extends State<SignupPage> {
                 controller: passwordController,
                 decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
+                
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a password';
@@ -76,14 +78,15 @@ class _SignupPageState extends State<SignupPage> {
                 child: const Text('Sign Up'),
               ),
 
-              TextButton(
-              onPressed: () {
-                Navigator.push(
+              AButton(
+                label: "login ",
+                onTap: (){
+                  Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
-              },
-              child: const Text('Login'),
+                }, width: 20,
+              
             ),
             ],
           ),

@@ -1,6 +1,6 @@
 // lib/details_page.dart
 import 'package:flutter/material.dart';
-import 'package:nonpms_scanner_project/modules/barcode_page.dart';
+import 'package:nonpms_scanner_project/modules/home/views/barcode_page.dart';
 
 class DetailsPage extends StatelessWidget {
   final TextEditingController itemTypeController = TextEditingController();
