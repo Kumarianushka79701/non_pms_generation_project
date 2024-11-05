@@ -12,19 +12,18 @@ class BarcodePage extends StatelessWidget {
 
   BarcodePage({required this.itemType, required this.description});
 
-  // Generate random barcode data if itemType and description are empty
+ 
   String _generateRandomBarcodeData() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     Random rnd = Random();
     return String.fromCharCodes(Iterable.generate(
-      8, // Length of random data
+      8, 
       (_) => chars.codeUnitAt(rnd.nextInt(chars.length)),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
-    // If both itemType and description are empty, generate random data
     String barcodeData = (itemType.isEmpty && description.isEmpty)
         ? _generateRandomBarcodeData()
         : '$itemType - $description';
