@@ -1,7 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:nonpms_scanner_project/modules/login/views/login.dart';
+import 'package:nonpms_scanner_project/utils/colors.dart';
 import 'package:nonpms_scanner_project/widgets/button.dart';
+import 'package:nonpms_scanner_project/widgets/common_app_bar.dart';
+import 'package:nonpms_scanner_project/widgets/text_widget%20copy.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -19,7 +21,10 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up')),
+      appBar:
+          getAppBar(context, title: getSignUpAppBarTitle(context), onTap: () {
+        Navigator.pop(context);
+      }),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -44,7 +49,8 @@ class _SignupPageState extends State<SignupPage> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an email';
                   }
-                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                      .hasMatch(value)) {
                     return 'Please enter a valid email';
                   }
                   return null;
@@ -54,7 +60,6 @@ class _SignupPageState extends State<SignupPage> {
                 controller: passwordController,
                 decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
-                
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a password';
@@ -66,28 +71,38 @@ class _SignupPageState extends State<SignupPage> {
                 },
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Implement signup logic (e.g., call an API to create a new user)
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Sign up successful')),
-                    );
-                  }
-                },
-                child: const Text('Sign Up'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AButton(
+                    label: "Register ",
+                    onTap: () {
+                       if (_formKey.currentState!.validate()) {
+                        // Implement signup logic (e.g., call an API to create a new user)
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Sign up successful')),
+                        );
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
+                      );
+                    },
+                    width: 200,
+                  ),
+                  AButton(
+                    label: "login ",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                      );
+                    },
+                    width: 200,
+                  ),
+                ],
               ),
-
-              AButton(
-                label: "login ",
-                onTap: (){
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
-                }, width: 20,
-              
-            ),
             ],
           ),
         ),
@@ -96,3 +111,11 @@ class _SignupPageState extends State<SignupPage> {
   }
 }
 
+Widget getSignUpAppBarTitle(BuildContext context) {
+  return const TextWidget(
+    label: "Registration",
+    textColor: AColors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+  );
+}

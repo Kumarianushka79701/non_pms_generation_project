@@ -1,6 +1,10 @@
 // lib/details_page.dart
 import 'package:flutter/material.dart';
 import 'package:nonpms_scanner_project/modules/home/views/barcode_page.dart';
+import 'package:nonpms_scanner_project/modules/registration/views/sign_up_page.dart';
+import 'package:nonpms_scanner_project/utils/colors.dart';
+import 'package:nonpms_scanner_project/widgets/common_app_bar.dart';
+import 'package:nonpms_scanner_project/widgets/text_widget%20copy.dart';
 
 class DetailsPage extends StatelessWidget {
   final TextEditingController itemTypeController = TextEditingController();
@@ -11,7 +15,10 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Enter Details')),
+    appBar: getAppBar(context, title: getDetailsAppBarTitle(context), onTap: () {
+              Navigator.pop(context);
+
+      }), 
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -51,3 +58,14 @@ class DetailsPage extends StatelessWidget {
     );
   }
 }
+Widget getDetailsAppBarTitle(BuildContext context) {
+  
+    return const TextWidget(
+      label: "Details",
+      textColor: AColors.white,
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
+    );
+  }
+
+
