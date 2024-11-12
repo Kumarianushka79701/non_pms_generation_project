@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nonpms_scanner_project/config.dart'; // Import config file
 import 'package:nonpms_scanner_project/modules/login/views/login.dart';
 import 'package:nonpms_scanner_project/utils/colors.dart';
 import 'package:nonpms_scanner_project/widgets/button.dart';
 import 'package:nonpms_scanner_project/widgets/common_app_bar.dart';
 import 'package:nonpms_scanner_project/widgets/text_widget%20copy.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -17,12 +20,52 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  // Function to register a user
+  Future<void> registerUser(String username, String password, String email) async {
+    // Use the base URL from AppConfig
+    final url = Uri.parse('${AppConfig.currentBaseUrl}/register');
+    
+    final body = jsonEncode({
+      'username': username,
+      'password': password,
+      'email': email,
+    });
+    
+    try {
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registration successful: ${data['message']}')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registration failed: ${response.body}')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          getAppBar(context, title: getSignUpAppBarTitle(context), onTap: () {
+      appBar: 
+      getAppBar(context, title: getSignUpAppBarTitle(context), onTap: () {
         Navigator.pop(context);
       }),
       body: Padding(
@@ -50,7 +93,7 @@ class _SignupPageState extends State<SignupPage> {
                     return 'Please enter an email';
                   }
                   if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                      .hasMatch(value)) {
+                  .hasMatch(value)) {
                     return 'Please enter a valid email';
                   }
                   return null;
@@ -70,36 +113,46 @@ class _SignupPageState extends State<SignupPage> {
                   return null;
                 },
               ),
+              TextFormField(
+                controller: confirmPasswordController,
+                decoration: const InputDecoration(labelText: 'Confirm Password'),
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please confirm your password';
+                  }
+                  if (value != passwordController.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AButton(
+                    width: MediaQuery.of(context).size.width * 0.37,
                     label: "Register ",
                     onTap: () {
-                       if (_formKey.currentState!.validate()) {
-                        // Implement signup logic (e.g., call an API to create a new user)
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Sign up successful')),
+                      if (_formKey.currentState!.validate()) {
+                        registerUser(
+                          usernameController.text,
+                          passwordController.text,
+                          emailController.text,
                         );
                       }
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()),
-                      );
                     },
-                    width: 200,
                   ),
                   AButton(
-                    label: "login ",
+                    width: MediaQuery.of(context).size.width * 0.37,
+                    label: "Login",
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const LoginPage()),
                       );
                     },
-                    width: 200,
                   ),
                 ],
               ),
