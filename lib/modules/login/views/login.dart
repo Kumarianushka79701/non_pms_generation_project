@@ -24,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
         final loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
     return Scaffold(
+            backgroundColor: AColors.lightCyan,
+
      appBar: getAppBar(context, title: getLoginAppBarTitle(context), onTap: () {
         Navigator.pop(context);
       }),
@@ -54,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: !loginProvider.isPasswordVisible, // Control visibility
             ),
             const SizedBox(height: 20),
-            AButton(label: "Login",textAlign: TextAlign.center, width: MediaQuery.of(context)!.size.width*02,
+            AButton(label: "Login",textAlign: TextAlign.center, width: MediaQuery.of(context).size.width*02,
             onTap: (){
               
                 if (loginProvider.usernameController.text == 'anushka' &&loginProvider. passwordController.text == '123') {

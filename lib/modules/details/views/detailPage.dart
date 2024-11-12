@@ -22,6 +22,8 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            backgroundColor: AColors.lightCyan,
+
       appBar:
           getAppBar(context, title: getDetailsAppBarTitle(context), onTap: () {
         Navigator.pop(context);

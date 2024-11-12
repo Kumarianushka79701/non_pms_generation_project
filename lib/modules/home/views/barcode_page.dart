@@ -28,7 +28,8 @@ class BarcodePage extends StatelessWidget {
         ? _generateRandomBarcodeData()
         : '$itemType - $description';
 
-    return Scaffold(
+    return Scaffold(      backgroundColor: AColors.lightCyan,
+
        appBar: getAppBar(context, title: getBarcodeAppBarTitle(context), onTap: () {
         Navigator.pop(context);
       }), 

@@ -64,6 +64,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AColors.lightCyan,
       appBar: 
       getAppBar(context, title: getSignUpAppBarTitle(context), onTap: () {
         Navigator.pop(context);
@@ -73,8 +74,13 @@ class _SignupPageState extends State<SignupPage> {
         child: Form(
           key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextWidget(label: "Register YourSelf !",fontSize: 20,fontWeight: FontWeight.w700,textColor: AColors.black,)),
+            SizedBox(height: 20,),
               TextFormField(
                 controller: usernameController,
                 decoration: const InputDecoration(labelText: 'Username'),
@@ -166,7 +172,7 @@ class _SignupPageState extends State<SignupPage> {
 
 Widget getSignUpAppBarTitle(BuildContext context) {
   return const TextWidget(
-    label: "Registration",
+    label: "Sign Up",
     textColor: AColors.white,
     fontSize: 18,
     fontWeight: FontWeight.w700,
